@@ -1,11 +1,11 @@
 package ar.edu.unahur.obj2.caralibro
 
-class Usuario(val nombreUsuario: String){
+class Usuario {
+    val publicaciones = mutableListOf<Publicacion>()
 
-    var listaDePublicaciones = mutableListOf<Publicacion>()
-
-    fun realizarPublicacion(publicacion: Publicacion) {
-        listaDePublicaciones.add(publicacion)
+    fun agregarPublicacion(publicacion: Publicacion) {
+        publicaciones.add(publicacion)
     }
 
+    fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
 }
