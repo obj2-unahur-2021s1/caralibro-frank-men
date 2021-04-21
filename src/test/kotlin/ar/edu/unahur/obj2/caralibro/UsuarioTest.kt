@@ -1,7 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 
 class UsuarioTest : DescribeSpec({
@@ -31,6 +30,7 @@ class UsuarioTest : DescribeSpec({
                 juana.espacioDePublicaciones().shouldBe(550548)
             }
         }
+        // test del requisito número 2
         describe("me gusta") {
             describe("a una publicacion") {
                 it("dar me gusta") {
