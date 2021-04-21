@@ -1,7 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
 import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 abstract class Publicacion {
     abstract fun espacioQueOcupa(): Int
@@ -9,12 +8,17 @@ abstract class Publicacion {
     abstract fun cantidadDeMeGusta(): Int
 
 }
+object FactorDeCompresion{
+    var coeficiente = 0.7
+    fun modificarFactor(nuevoFactor: Double) {
+        coeficiente = nuevoFactor
+    }
+}
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
-    val factorDeCompresion = 0.7
     var cantidadDeMeGusta = 0
 
-    override fun espacioQueOcupa() = ceil(alto * ancho * factorDeCompresion).toInt()
+    override fun espacioQueOcupa() = ceil(alto * ancho * FactorDeCompresion.coeficiente).toInt()
     override fun meGusta() {
         cantidadDeMeGusta += 1
     }
