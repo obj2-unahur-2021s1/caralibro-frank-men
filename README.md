@@ -22,7 +22,7 @@ Por cuestiones de almacenamiento en los servidores, nos interesará saber cuánt
 
 Los usuarios que pueden ver una publicación pueden indicar que esa publicación les gusta, aumentando el número de _me gustas_ de la misma. A nuestra aplicación le importa tanto la cantidad de _me gustas_ que recibió una publicación, como saber quiénes le dieron _me gusta_. No es posible que una misma persona le de _me gusta_ más de una vez.
 
-Nuestros usuarios tienen **amigos**, pero no quieren compartir todas sus publicaciones con todos ellos. Por ejemplo, hay fotos y videos que no quieren que sus familias vean, por alguna extraña razón. Para satisfacer esa necesidad, cada publicación tiene asignado un permiso, que puede ser:
+Nuestros usuarios tienen **amigos**, pero no quieren compartir todas sus publicaciones con todos ellos. Para satisfacer esa necesidad, cada publicación tiene asignado un permiso, que puede ser:
 
 * **público**: cualquier usuario puede ver la publicación,
 * **sólo amigos**: sólo los amigos pueden verla,

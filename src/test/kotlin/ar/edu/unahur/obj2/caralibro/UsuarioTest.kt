@@ -1,5 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
@@ -7,7 +8,6 @@ class UsuarioTest : DescribeSpec({
     describe("Caralibro") {
         val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
         val fotoEnCuzco = Foto(768, 1024)
-        fotoEnCuzco.meGusta()
 
         describe("Una publicacion") {
             describe("de tipo foto") {
@@ -30,20 +30,30 @@ class UsuarioTest : DescribeSpec({
                 juana.espacioDePublicaciones().shouldBe(550548)
             }
         }
-        // test del requisito número 2
-        describe("me gusta") {
-            describe("a una publicacion") {
-                it("dar me gusta") {
-                    fotoEnCuzco.cantidadDeMeGusta().shouldBe(1)
-                }
+
+        describe("Un usuario puede dar like"){
+            it("Pepe le da me gusta a Raquel"){
+                val pepe = Usuario()
+                val raquel = Usuario()
+                val fotitoPreciosa = Foto(120,120)
+                raquel.agregarPublicacion(fotitoPreciosa)
+                pepe.darMeGusta(fotitoPreciosa)
             }
-            describe("de una publicacion") {
-                it("saber cuantos me gusta"){
-                    saludoCumpleanios.meGusta()
-                    saludoCumpleanios.meGusta()
-                    saludoCumpleanios.cantidadDeMeGusta().shouldBe(2)
-                }
+            it("Pepe se emociona, y le vuelve a dar like."){
+                val pepe = Usuario()
+                val raquel = Usuario()
+                val fotitoPreciosa = Foto(120,120)
+                raquel.agregarPublicacion(fotitoPreciosa)
+                pepe.darMeGusta(fotitoPreciosa)
+                shouldThrow<Exception> { pepe.darMeGusta(fotitoPreciosa)}
+            }
+
+        }
+        describe("Un usuario tiene amigos"){
+            it("Raquel se asusta, pepe ya no puede ver las fotos."){
+
             }
         }
+
     }
 })
