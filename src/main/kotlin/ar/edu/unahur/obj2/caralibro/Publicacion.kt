@@ -6,7 +6,6 @@ import kotlin.math.ceil
 
 //--------------------------------------------PUBLICACION-BASE---/
 abstract class Publicacion() {
-    var usuariosDeMeGusta = mutableListOf<Usuario>()
     var permisoPublicacion: String = "Publico"
 
     abstract fun espacioQueOcupa(): Int
@@ -15,24 +14,7 @@ abstract class Publicacion() {
         permisoPublicacion = nuevoPermiso
     }
     fun permisoPublicacion(): String = permisoPublicacion
-
-/*    fun admiteAUsuario(usuario: Usuario) = permisoPublicacion.contieneAUsuario(usuario)
-    fun recibirMeGusta(usuario: Usuario){
-        //usar check
-        if (!(usuariosDeMeGusta.contains(usuario))){
-            usuariosDeMeGusta.add(usuario)
-        }
-        else{
-            throw Exception("El usuario ya ha dado like.")
-        }
-    }
-    fun cantidadDeMeGusta() = usuariosDeMeGusta.size
-
- */
 }
-
-
-
 
 //--------------------------FACTOR-COMPRESION
 object FactorDeCompresion{
