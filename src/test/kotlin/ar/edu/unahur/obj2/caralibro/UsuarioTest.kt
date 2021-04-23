@@ -72,6 +72,11 @@ class UsuarioTest : DescribeSpec({
                     pepe.puedeDarMeGusta(fotitoPreciosa, raquel).shouldBeFalse()
                 }
             }
+            describe("dar me gusta a una publicacion de un usuario"){
+                it("Raquel da megusta a una publicacion de juana"){
+                    raquel.meGusta(saludoCumpleanios, juana)
+                }
+            }
 
         }
 
