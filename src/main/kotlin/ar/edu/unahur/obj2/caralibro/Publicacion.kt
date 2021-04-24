@@ -5,17 +5,42 @@ import kotlin.math.ceil
 
 
 //--------------------------------------------PUBLICACION-BASE---/
-abstract class Publicacion() {
-    var permisoPublicacion: String = "Publico"
+abstract class Publicacion(var usuario: Usuario? = null) {
+    var permisoPublicacion: String = "publico"
 
     abstract fun espacioQueOcupa(): Int
 
-    fun cambiarPermiso(nuevoPermiso: String){
-        permisoPublicacion = nuevoPermiso
+    fun cambiarPermiso(nuevoPermiso: String) {
+        permisoPublicacion = nuevoPermiso.toLowerCase()
     }
-    fun permisoPublicacion(): String = permisoPublicacion
-}
 
+    fun puedeSerVistaPor(usuario: Usuario): Boolean {
+        if (usuario == this.usuario) {
+            return true
+        }
+
+        if (permisoPublicacion == "publico") {
+            return permisoPublico(usuario)
+        }
+        if (permisoPublicacion == "solo amigos") {
+            return permisoSoloAmigos(usuario)
+        }
+        if (permisoPublicacion == "privado con permitidos") {
+            return permisoPrivadoConPermitidos(usuario)
+        }
+        if (permisoPublicacion == "publico con excluidos") {
+            return permisoPublicoConExcluidos(usuario)
+        } else {
+            throw Exception("El tipo de permiso no es valido.")
+        }
+
+    }
+
+    fun permisoPublico(usuario: Usuario) = true
+    fun permisoSoloAmigos(usuario: Usuario) = usuario.amigos.contains(usuario)
+    fun permisoPrivadoConPermitidos(usuario: Usuario) = usuario.listaDePermitidos.contains(usuario)
+    fun permisoPublicoConExcluidos(usuario: Usuario) = usuario.listaDeExcluidos.contains(usuario)
+}
 //--------------------------FACTOR-COMPRESION
 object FactorDeCompresion{
     var coeficiente = 0.7
@@ -57,14 +82,6 @@ abstract class Calidades(){
 class SD(var video: Video): Calidades()     { override fun devolverCalidad() = video.duracion }
 class HD720(var video: Video): Calidades()  { override fun devolverCalidad() = video.duracion * 3 }
 class HD1080(var video: Video): Calidades() { override fun devolverCalidad() = video.duracion * 6 }
-
-
-
-
-
-
-
-//----------------------------------PERMISOS-------------------/
 
 
 

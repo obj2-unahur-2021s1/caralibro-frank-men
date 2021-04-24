@@ -8,7 +8,12 @@ class Usuario {
     var registroDeMeGusta: MutableMap<Publicacion, Usuario> = mutableMapOf()
 
     fun agregarPublicacion(publicacion: Publicacion) {
+        //Agregar publicacion tiene por objetivo no solo añadir la publicacion
+        //a la lista, si no que tambien se encarga de transformar la publicacion
+        //para que esta contenga como parametro al usuario que la creo.
+        publicacion.usuario = this
         publicaciones.add(publicacion)
+
     }
     fun agregarAmigo(amigo: Usuario) {
         amigos.add(amigo)
@@ -37,6 +42,10 @@ class Usuario {
     private fun registrarMeGusta(publicacion: Publicacion, usuario: Usuario) {
         //TODO verificar en el registro si ya existe clave-valor
         //registroDeMeGusta[publicacion] = usuario
+    }
+
+    fun puedeVerPublicacion(publicacion: Publicacion): Boolean{
+        return publicacion.puedeSerVistaPor(this)
     }
 
 
