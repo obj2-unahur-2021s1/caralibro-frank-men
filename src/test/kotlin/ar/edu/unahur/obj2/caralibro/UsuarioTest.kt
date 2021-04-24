@@ -1,10 +1,12 @@
 package ar.edu.unahur.obj2.caralibro
 
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldNotBeTypeOf
 
 class UsuarioTest : DescribeSpec({
     describe("Caralibro") {
@@ -62,41 +64,34 @@ class UsuarioTest : DescribeSpec({
                 }
             }
             describe("puede dar me gusta"){
-                it("raquel puede dar me gusta a saludoCumpleanios") {
-                    raquel.puedeDarMeGusta(saludoCumpleanios, juana).shouldBeTrue()
+                it("pepe puede dar me gusta a publicacion de raquela") {
+                    val pepito = Usuario()
+                    val raquela = Usuario()
+                    val publiCancun = Foto(1280,720)
+                    raquela.agregarPublicacion(publiCancun)
+                    publiCancun.cambiarPermiso("publico")
+                    shouldNotThrow<Exception> {pepito.darMeGusta(publiCancun)}
                 }
-                it("Juana puede dar me gusta a fotoEnCuzco"){
-                    juana.puedeDarMeGusta(fotoEnCuzco, juana).shouldBeTrue()
+                it("raquela cambia los permisos y pepe ya no puede."){
+                    val pepito = Usuario()
+                    val raquela = Usuario()
+                    val publiCancun = Foto(1280,720)
+                    raquela.agregarPublicacion(publiCancun)
+                    publiCancun.cambiarPermiso("solo amigos")
+                    shouldThrow<Exception> { pepito.darMeGusta(publiCancun) }
+
                 }
-                it("pepe NO puede dar me gusta a fotitoPreciosa"){
-                    pepe.puedeDarMeGusta(fotitoPreciosa, raquel).shouldBeFalse()
+                it("pepe, ahora amigo de raquela, puede volver a darle like."){
+                    val pepito = Usuario()
+                    val raquela = Usuario()
+                    val publiCancun = Foto(1280,720)
+                    raquela.agregarPublicacion(publiCancun)
+                    publiCancun.cambiarPermiso("solo amigos")
+                    raquela.agregarAmigo(pepito)
+                    shouldNotThrow<Exception> {pepito.darMeGusta(publiCancun)}
+
                 }
-            }
-            describe("dar me gusta a una publicacion de un usuario"){
-                it("Raquel da megusta a una publicacion de juana"){
-                    raquel.meGusta(saludoCumpleanios, juana)
-                }
-            }
-
-        }
-
-        /*describe("Un usuario puede dar meGusta"){
-            it("Pepe le da me gusta a Raquel"){
-                pepe.darMeGusta(fotitoPreciosa)
-            }
-            it("Pepe se emociona, y le vuelve a dar like."){
-                pepe.darMeGusta(fotitoPreciosa)
-                shouldThrow<Exception> { pepe.darMeGusta(fotitoPreciosa)}
-            }
-
-        }
-        describe("Un usuario tiene amigos"){
-            it("Raquel se asusta, pepe ya no puede ver las fotos."){
-
             }
         }
-
-         */
-
     }
 })

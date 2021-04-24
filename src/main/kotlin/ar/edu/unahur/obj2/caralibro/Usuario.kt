@@ -5,75 +5,53 @@ class Usuario {
     var amigos = mutableListOf<Usuario>()
     var listaDePermitidos = mutableListOf<Usuario>()
     var listaDeExcluidos = mutableListOf<Usuario>()
-    var registroDeMeGusta: MutableMap<Publicacion, Usuario> = mutableMapOf()
 
     fun agregarPublicacion(publicacion: Publicacion) {
         //Agregar publicacion tiene por objetivo no solo añadir la publicacion
-        //a la lista, si no que tambien se encarga de transformar la publicacion
-        //para que esta contenga como parametro al usuario que la creo.
-        publicacion.usuario = this
+        //a la lista, si no que tambien se encarga de asignarle el usuario
+        //a la publicacion, para poder trabajar con permisos.
+        publicacion.usuarioPublicacion = this
         publicaciones.add(publicacion)
 
     }
     fun agregarAmigo(amigo: Usuario) {
+        //chequea si no esta agregado, y si no, lo agrega
+        if (amigos.contains(amigo)){
+            throw Exception("El usuario ya ha sido agregado")
+        }
         amigos.add(amigo)
     }
     fun agregarPermitido(amigo: Usuario){
-        check(!listaDePermitidos.contains(amigo)){
-            listaDePermitidos.add((amigo))
+        //añade un usuario a la lista de permitidos.
+        if (listaDePermitidos.contains(amigo)){
+            throw Exception("El usuario ya se encuentra en la lista.")
         }
+        listaDePermitidos.add(amigo)
     }
     fun agregarExcluido(amigo: Usuario){
-        check(!listaDeExcluidos.contains(amigo)){
-            listaDeExcluidos.add((amigo))
+        //agrega un usuario a la lista de excluidos.
+        if (listaDeExcluidos.contains(amigo)){
+            throw Exception("El usuario ya se encuentra en la lista.")
         }
+        listaDeExcluidos.add(amigo)
     }
+
     fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
 
-    fun puedeDarMeGusta(publicacion: Publicacion, usuario: Usuario) =
-        (amigos.contains(usuario) && this.estaPublicacionYTienePermisos(publicacion,usuario )) || usuario==this
-
-    fun meGusta(publicacion: Publicacion, usuario: Usuario) {
-        check(!puedeDarMeGusta(publicacion,usuario)){
-            this.registrarMeGusta(publicacion,usuario)
-        }
-
-    }
-    private fun registrarMeGusta(publicacion: Publicacion, usuario: Usuario) {
-        //TODO verificar en el registro si ya existe clave-valor
-        //registroDeMeGusta[publicacion] = usuario
-    }
-
     fun puedeVerPublicacion(publicacion: Publicacion): Boolean{
+        //Envia puedeSerVistaPor a la publicacion, para realizar la logica alli.
         return publicacion.puedeSerVistaPor(this)
     }
 
-
-
-    // validaciones y funciones accesorias
-    private fun estaPublicacionYTienePermisos(publicacion: Publicacion, usuario: Usuario) =
-        usuario.contiene(publicacion) && this.validarPermiso(usuario, publicacion)
-    private fun contiene(publicacion: Publicacion) = publicaciones.contains(publicacion)
-
-    //validaciones de usuario y publicacion
-    private fun validarPermiso(usuario: Usuario, publicacion: Publicacion) =
-        this.publico(publicacion) || this.soloAmigos(publicacion,usuario) ||
-                this.privadaConListaDePermitidos(publicacion,usuario) || this.publicoConListaDeExcluidos(publicacion,usuario)
-
-    // verificacion del estado de la publicacion
-    private fun publico(publicacion: Publicacion) = (publicacion.permisoPublicacion == "Publico")
-    private fun soloAmigos(publicacion: Publicacion, usuario: Usuario) =
-        (publicacion.permisoPublicacion == "SoloAmigos") && (amigos.contains(usuario))
-    private fun privadaConListaDePermitidos(publicacion: Publicacion, usuario: Usuario) =
-        publicacion.permisoPublicacion == "PrivadaConPermitidos" && this.estaEnListaDePermitidos(usuario)
-    private fun publicoConListaDeExcluidos(publicacion: Publicacion, usuario: Usuario) =
-        publicacion.permisoPublicacion == "PublicoConExcluidos" && !this.estaEnListaDeExcluidos(usuario)
+    fun darMeGusta(publicacion: Publicacion){
+        //Si el usuario puede ver la publicacion, manda la peticion a recibirMeGusta
+        if (!(this.puedeVerPublicacion(publicacion))){
+            throw Exception("No se puede dar me gusta.")
+        }
+        publicacion.recibirMeGusta(this)
+    }
 
     private fun estaEnListaDePermitidos(usuario: Usuario) = listaDePermitidos.contains(usuario)
     private fun estaEnListaDeExcluidos(usuario: Usuario) = listaDeExcluidos.contains(usuario)
-
-
-
-
 
 }

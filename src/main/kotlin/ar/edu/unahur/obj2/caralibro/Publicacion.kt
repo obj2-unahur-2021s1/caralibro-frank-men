@@ -5,42 +5,49 @@ import kotlin.math.ceil
 
 
 //--------------------------------------------PUBLICACION-BASE---/
-abstract class Publicacion(var usuario: Usuario? = null) {
+abstract class Publicacion() {
     var permisoPublicacion: String = "publico"
+    lateinit var usuarioPublicacion: Usuario
+    var usuariosDeMeGusta = mutableListOf<Usuario>()
 
     abstract fun espacioQueOcupa(): Int
 
+    fun recibirMeGusta(usuario: Usuario){
+        //Si el usuario ya dio me gusta, tira error, sino, lo agrega.
+        if (usuariosDeMeGusta.contains(usuario)){
+            throw Exception("El usuario ya ha dado like.")
+        }
+        usuariosDeMeGusta.add(usuario)
+    }
+
+    fun cantidadDeMeGusta() = usuariosDeMeGusta.size
+
     fun cambiarPermiso(nuevoPermiso: String) {
+        //Asigna un nuevo permiso.
         permisoPublicacion = nuevoPermiso.toLowerCase()
     }
 
     fun puedeSerVistaPor(usuario: Usuario): Boolean {
-        if (usuario == this.usuario) {
-            return true
-        }
-
-        if (permisoPublicacion == "publico") {
-            return permisoPublico(usuario)
-        }
-        if (permisoPublicacion == "solo amigos") {
-            return permisoSoloAmigos(usuario)
-        }
-        if (permisoPublicacion == "privado con permitidos") {
-            return permisoPrivadoConPermitidos(usuario)
-        }
-        if (permisoPublicacion == "publico con excluidos") {
-            return permisoPublicoConExcluidos(usuario)
-        } else {
-            throw Exception("El tipo de permiso no es valido.")
-        }
-
+        //Devuelve booleano, indica si un usuario determinado puede ver la publicacion.
+        //esto lo hace utilizando los permisos.
+        if (usuario == usuarioPublicacion) { return true }
+        if (permisoPublicacion == "publico") { return permisoPublico(usuario) }
+        if (permisoPublicacion == "solo amigos") { return permisoSoloAmigos(usuario) }
+        if (permisoPublicacion == "privado con permitidos") { return permisoPrivadoConPermitidos(usuario) }
+        if (permisoPublicacion == "publico con excluidos") { return permisoPublicoConExcluidos(usuario) }
+        else { throw Exception("El tipo de permiso no es valido.") }
     }
 
+    //----------------------PERMISOS----/
     fun permisoPublico(usuario: Usuario) = true
-    fun permisoSoloAmigos(usuario: Usuario) = usuario.amigos.contains(usuario)
-    fun permisoPrivadoConPermitidos(usuario: Usuario) = usuario.listaDePermitidos.contains(usuario)
-    fun permisoPublicoConExcluidos(usuario: Usuario) = usuario.listaDeExcluidos.contains(usuario)
+    fun permisoSoloAmigos(usuario: Usuario) = usuarioPublicacion.amigos.contains(usuario)
+    fun permisoPrivadoConPermitidos(usuario: Usuario) = usuarioPublicacion.listaDePermitidos.contains(usuario)
+    fun permisoPublicoConExcluidos(usuario: Usuario) = usuarioPublicacion.listaDeExcluidos.contains(usuario)
+
 }
+
+
+
 //--------------------------FACTOR-COMPRESION
 object FactorDeCompresion{
     var coeficiente = 0.7

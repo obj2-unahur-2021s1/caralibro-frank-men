@@ -51,12 +51,11 @@ class PublicacionTest: DescribeSpec ({
                 videoDeMichis.espacioQueOcupa().shouldBe(360)
             }
         }
-        describe("Creo una publicacion, la asigno a usuario y le cambio permisos."){
+        describe(""){
             val textito = Texto("Hola amigos") //creo la publicacion.
             val juancito = Usuario() // Usuario dueño de la publicacion
             val pepito = Usuario() //Usuario ajeno
             juancito.agregarPublicacion(textito)
-            //agregarPublicacion deberia mapear la publicacion, agregandole como valor extra al usuario en cuestion.
             textito.cambiarPermiso("solo amigos")
             juancito.puedeVerPublicacion(textito).shouldBe(true)
             pepito.puedeVerPublicacion(textito).shouldBe(false)
