@@ -58,11 +58,12 @@ class Usuario {
 
     fun mejoresAmigos() = amigos.filter { ami -> this.puedeVerTodasLasPublicaciones(ami) }.toSet()
 
+    fun stalkea(usuario: Usuario) = this.cantidadDeMeGustaDe(usuario) > (usuario.cantidadDeMeGustaDe(this)*0.9)
+
+    private fun cantidadDeMeGustaDe(usuario: Usuario) = this.publicaciones.filter { it.contiene(usuario) }.size
     private fun puedeVerTodasLasPublicaciones(usuario: Usuario) =
         this.puedeVerTodas(usuario) == publicaciones.size
-
     private fun puedeVerTodas(usuario: Usuario) = publicaciones.filter { it.puedeSerVistaPor(usuario) }.size
-
     private fun cantidadAmigos() = this.amigos.count()
 
 
