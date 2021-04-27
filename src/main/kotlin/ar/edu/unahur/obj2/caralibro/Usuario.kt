@@ -54,6 +54,8 @@ class Usuario {
 
     fun esMasAmistosoQue_(usuario: Usuario) = this.cantidadAmigos() > usuario.cantidadAmigos()
 
+    fun amigoMasPopular() = amigos.maxByOrNull { it.cantidadDeMeGusta() }
+
     private fun cantidadAmigos() = this.amigos.count()
 
 
