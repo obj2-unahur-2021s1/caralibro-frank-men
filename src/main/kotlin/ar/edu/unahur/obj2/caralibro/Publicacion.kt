@@ -1,6 +1,5 @@
 package ar.edu.unahur.obj2.caralibro
 
-import java.security.KeyStore
 import kotlin.math.ceil
 
 
@@ -14,7 +13,7 @@ abstract class Publicacion() {
 
     fun recibirMeGusta(usuario: Usuario){
         //Si el usuario ya dio me gusta, tira error, sino, lo agrega.
-        if (usuariosDeMeGusta.contains(usuario)){
+        if (this.contiene(usuario)){
             throw Exception("El usuario ya ha dado me gusta.")
         }
         usuariosDeMeGusta.add(usuario)
@@ -44,6 +43,7 @@ abstract class Publicacion() {
     fun permisoPrivadoConPermitidos(usuario: Usuario) = usuarioPublicacion.listaDePermitidos.contains(usuario)
     fun permisoPublicoConExcluidos(usuario: Usuario) = !usuarioPublicacion.listaDeExcluidos.contains(usuario)
 
+    fun contiene(usuario: Usuario) = usuariosDeMeGusta.contains(usuario)
 }
 
 
