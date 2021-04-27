@@ -56,6 +56,8 @@ class Usuario {
 
     fun amigoMasPopular() = amigos.maxByOrNull { it.cantidadDeMeGusta() }
 
+    fun mejoresAmigos() {} // Implementar
+
     private fun cantidadAmigos() = this.amigos.count()
 
 
