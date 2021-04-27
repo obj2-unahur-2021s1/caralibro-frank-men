@@ -131,6 +131,14 @@ class UsuarioTest : DescribeSpec({
                     juana.mejoresAmigos().shouldContainExactlyInAnyOrder(pepe)
                 }
             }
+            describe("stalkeo"){
+                it("juana stalkea a pepe"){
+                    juana.stalkea(pepe).shouldBeTrue()
+                }
+                it("raquel No stalkea a juana"){
+                    raquel.stalkea(juana).shouldBeFalse()
+                }
+            }
         }
     }
 })
