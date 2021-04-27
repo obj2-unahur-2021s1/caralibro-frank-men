@@ -31,6 +31,18 @@ class PublicacionTest: DescribeSpec ({
             val videitoHD1080 = Video(100, "hd1080")
             videitoHD1080.espacioQueOcupa().shouldBe(600)
         }
+
+        //REQ. 1: Cuanto ocupan las publicaciones de un usuario.
+        it("Cuanto ocupan las publicaciones de pepe"){
+            val pepe = Usuario()
+            val publiFoto = Foto(100,10) //peso 700.
+            val publiTexto = Texto("Hola amiguitos de facebok") //peso 25.
+            val publiVideo = Video(75,"sd") //peso 75
+            pepe.agregarPublicacion(publiFoto)
+            pepe.agregarPublicacion(publiTexto)
+            pepe.agregarPublicacion(publiVideo)
+            pepe.espacioDePublicaciones().shouldBe(800)
+        }
     }
     describe("Cambiar resoluciones") {
         it("Cambiar video SD a HD720") {

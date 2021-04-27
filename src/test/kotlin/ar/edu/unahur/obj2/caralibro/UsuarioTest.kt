@@ -91,6 +91,7 @@ class UsuarioTest : DescribeSpec({
                     juana.espacioDePublicaciones().shouldBe(552198)
                 }
             }
+            //REQ. 2: Puede dar me gusta.
             describe("puede dar me gusta"){
                 it("pepe puede dar me gusta a publicacion de raquela") {
                     publiCancun.cambiarPermiso("publico")
@@ -105,7 +106,6 @@ class UsuarioTest : DescribeSpec({
                     publiCancun.cambiarPermiso("solo amigos")
                     raquela.agregarAmigo(pepito)
                     shouldNotThrow<Exception> {pepito.darMeGusta(publiCancun)}
-
                 }
             }
             describe("Es mas amistoso"){
@@ -116,6 +116,7 @@ class UsuarioTest : DescribeSpec({
                     raquel.esMasAmistosoQue_(juana).shouldBeFalse()
                 }
             }
+            //REQ. 2: Cantidad de me gusta
             describe("cantidad de me gusta"){
                 it("por usuario"){
                     pepe.cantidadDeMeGusta().shouldBe(4)

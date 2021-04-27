@@ -53,36 +53,3 @@ Esta obra está bajo una [Licencia Creative Commons Atribución-CompartirIgual 4
 
 [cc-by-sa]: https://creativecommons.org/licenses/by-sa/4.0/deed.es
 [cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
-
-
-ok, vamos a establecer las necesidades de caralibro, para tener un panorama
-de que es lo que debemos realizar, en favor de facilitar el TDD y el desarrollo en cuestion.
-
-RED SOCIAL:es una interfaz, la cual trabaja internamente con USUARIOS. los usuarios son capaces de generar acciones dentro de la red social, en general diremos que es subir texto fotos y video.
-
-PUBLICACIONES: Probablemente una clase A B S T R A C T A, es el resultado de la interaccion entre la red social y el usuario.
-tipos de publicacion:
-
-fotos: para calcular su tamaño se usa la siguiente formula: alto * ancho * factor de compresion; el factor de compresion debe ser configurable. el numero ha de ser redondeado hacia arriba.
-
-texto: el espacio que ocupan es igual a la cantidad de caracteres.
-
-videos: poseen un atributo CALIDAD, estas son:
-sd = tamaño igual a segundos de duracion.
-hd720 = tamaño igual a sd x 3
-hd1080 = hd720 x 2
-se debe poder modificar la calidad del video sin realizar una nueva publicacion.
-//-----ideas sobre el video
-| el video tiene que tener una funcion cambiarCalidad(calidad)
-| que realize el calculo del peso.
-
-PUBLICACIONES PT2: los USUARIOS pueden dar me gusta a una publicacion, lo cual significa que publicacion tiene un atributo, y una funcion, la funcion debe saber de quien es el like, y tirar error si es de uno que ya dio.
-
-USUARIOS PT2: los USUARIOS tienen amigos (set de usuarios), pero no todos los amigos pueden ver todas las publicaciones, por lo cual la PUBLICACION debe contar con PERMISOS...
-tipo de permisos:
-publico: todos (default)
-solo amigos: solo amigos
-privado con permitidos: nadie menos los de la lista.
-publico con lista de excluidos: todos menos los de la lista.
-
-sea la configuracion que sea, un usuario siempre puede ver la public.
