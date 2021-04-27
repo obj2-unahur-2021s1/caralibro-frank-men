@@ -126,6 +126,11 @@ class UsuarioTest : DescribeSpec({
                     juana.amigoMasPopular().shouldBe(pepe)
                 }
             }
+            describe("mejores amigos"){
+                it("mejores amigos de juana"){
+                    juana.mejoresAmigos().shouldBe((pepe))
+                }
+            }
         }
     }
 })
