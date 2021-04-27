@@ -14,26 +14,44 @@ class UsuarioTest : DescribeSpec({
         val juana = Usuario()
         val pepe = Usuario()
         val raquel = Usuario()
+        val pepito = Usuario()
+        val raquela = Usuario()
         // Publicaciones
         val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
         val fotoEnCuzco = Foto(768, 1024)
         val videoPlaya = Video(550,"hd720")
         val fotitoPreciosa = Foto(120,120)
+        val publiCancun = Foto(1280,720)
+        val fotoFacha = Foto(1280, 1080)
         // Asignacion de publicaciones
         juana.agregarPublicacion(fotoEnCuzco)
         juana.agregarPublicacion(saludoCumpleanios)
-        pepe.agregarPublicacion(videoPlaya)
+        juana.agregarPublicacion(videoPlaya)
         raquel.agregarPublicacion(fotitoPreciosa)
+        raquela.agregarPublicacion(publiCancun)
+        pepe.agregarPublicacion(fotoFacha)
         // Cambio de permisos
-        fotoEnCuzco.cambiarPermiso("SoloAmigos")
-        videoPlaya.cambiarPermiso("PrivadoConPermitidos")
-        fotitoPreciosa.cambiarPermiso("PublicoConExcluidos")
+        fotoEnCuzco.cambiarPermiso("solo amigos")
+        videoPlaya.cambiarPermiso("privado con permitidos")
+        fotitoPreciosa.cambiarPermiso("publico con excluidos")
         // Designacion de amigos
-        // Juana es amiga de Pepe y Raquel (y viseversa), pero Pepe y Raquel no son amigos
         pepe.agregarAmigo(juana)
+        pepe.agregarAmigo(raquela)
         raquel.agregarAmigo(juana)
         juana.agregarAmigo(pepe)
         juana.agregarAmigo(raquel)
+        juana.agregarAmigo(raquela)
+        pepito.agregarAmigo(pepe)
+        // listas de permitidos y excluidos
+        juana.agregarPermitido(pepe)
+        raquel.agregarExcluido(pepe)
+        // me gustas
+        raquel.darMeGusta(fotoFacha)
+        raquela.darMeGusta(fotoFacha)
+        juana.darMeGusta(fotoFacha)
+        pepe.darMeGusta(fotoFacha)
+        pepe.darMeGusta(fotoEnCuzco)
+        raquela.darMeGusta(fotoEnCuzco)
 
         describe("Una publicacion") {
             describe("de tipo foto") {
@@ -53,43 +71,53 @@ class UsuarioTest : DescribeSpec({
             }
             describe("permiso de publicacion") {
                 it("es publico"){
-                    saludoCumpleanios.permisoPublicacion.shouldBe("Publico")// por solucionar tema string
+                    saludoCumpleanios.permisoPublicacion.shouldBe("publico")
+                }
+            }
+            describe("lista privada con permitidos"){
+                it("juana comparte video privado"){
+                    pepe.puedeVerPublicacion(videoPlaya).shouldBeTrue()
+                }
+                it("raquel excluye a pepe"){
+                    pepe.puedeVerPublicacion(fotitoPreciosa).shouldBeFalse()
                 }
             }
         }
         describe("Un usuario") {
+
             describe("de espacio") {
                 it("puede calcular el espacio que ocupan sus publicaciones") {
-                    juana.espacioDePublicaciones().shouldBe(550548)
+                    juana.espacioDePublicaciones().shouldBe(552198)
                 }
             }
             describe("puede dar me gusta"){
                 it("pepe puede dar me gusta a publicacion de raquela") {
-                    val pepito = Usuario()
-                    val raquela = Usuario()
-                    val publiCancun = Foto(1280,720)
-                    raquela.agregarPublicacion(publiCancun)
                     publiCancun.cambiarPermiso("publico")
                     shouldNotThrow<Exception> {pepito.darMeGusta(publiCancun)}
                 }
                 it("raquela cambia los permisos y pepe ya no puede."){
-                    val pepito = Usuario()
-                    val raquela = Usuario()
-                    val publiCancun = Foto(1280,720)
-                    raquela.agregarPublicacion(publiCancun)
                     publiCancun.cambiarPermiso("solo amigos")
                     shouldThrow<Exception> { pepito.darMeGusta(publiCancun) }
 
                 }
                 it("pepe, ahora amigo de raquela, puede volver a darle like."){
-                    val pepito = Usuario()
-                    val raquela = Usuario()
-                    val publiCancun = Foto(1280,720)
-                    raquela.agregarPublicacion(publiCancun)
                     publiCancun.cambiarPermiso("solo amigos")
                     raquela.agregarAmigo(pepito)
                     shouldNotThrow<Exception> {pepito.darMeGusta(publiCancun)}
 
+                }
+            }
+            describe("Es mas amistoso"){
+                it("Juana es mas amistosa que pepito"){
+                    juana.esMasAmistosoQue_(pepito).shouldBeTrue()
+                }
+                it("Raquel NO es mas amistosa que juana"){
+                    raquel.esMasAmistosoQue_(juana).shouldBeFalse()
+                }
+            }
+            describe("cantidad de me gusta"){
+                it("por usuario"){
+                    pepe.cantidadDeMeGusta().shouldBe(4)
                 }
             }
         }
