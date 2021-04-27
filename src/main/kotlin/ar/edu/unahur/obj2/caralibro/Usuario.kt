@@ -56,7 +56,12 @@ class Usuario {
 
     fun amigoMasPopular() = amigos.maxByOrNull { it.cantidadDeMeGusta() }
 
-    fun mejoresAmigos() {} // Implementar
+    fun mejoresAmigos() = amigos.filter { ami -> this.puedeVerTodasLasPublicaciones(ami) }.toSet()
+
+    private fun puedeVerTodasLasPublicaciones(usuario: Usuario) =
+        this.puedeVerTodas(usuario) == publicaciones.size
+
+    private fun puedeVerTodas(usuario: Usuario) = publicaciones.filter { it.puedeSerVistaPor(usuario) }.size
 
     private fun cantidadAmigos() = this.amigos.count()
 
