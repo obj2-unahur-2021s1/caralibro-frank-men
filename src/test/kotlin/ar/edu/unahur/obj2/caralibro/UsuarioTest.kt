@@ -52,6 +52,7 @@ class UsuarioTest : DescribeSpec({
         pepe.darMeGusta(fotoFacha)
         pepe.darMeGusta(fotoEnCuzco)
         raquela.darMeGusta(fotoEnCuzco)
+        raquela.darMeGusta(fotitoPreciosa)
 
         describe("Una publicacion") {
             describe("de tipo foto") {
@@ -118,6 +119,11 @@ class UsuarioTest : DescribeSpec({
             describe("cantidad de me gusta"){
                 it("por usuario"){
                     pepe.cantidadDeMeGusta().shouldBe(4)
+                }
+            }
+            describe("el mas popular"){
+                it("de los amigos de juana"){
+                    juana.amigoMasPopular().shouldBe(pepe)
                 }
             }
         }
