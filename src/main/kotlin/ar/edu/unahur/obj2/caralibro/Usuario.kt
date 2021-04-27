@@ -38,10 +38,10 @@ class Usuario {
 
     fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
 
-    fun puedeVerPublicacion(publicacion: Publicacion): Boolean{
+    fun puedeVerPublicacion(publicacion: Publicacion) =
         //Envia puedeSerVistaPor a la publicacion, para realizar la logica alli.
-        return publicacion.puedeSerVistaPor(this)
-    }
+        publicacion.puedeSerVistaPor(this)
+
 
     fun darMeGusta(publicacion: Publicacion){
         //Si el usuario puede ver la publicacion, manda la peticion a recibirMeGusta
@@ -50,8 +50,12 @@ class Usuario {
         }
         publicacion.recibirMeGusta(this)
     }
+    fun cantidadDeMeGusta() = publicaciones.sumBy { it.cantidadDeMeGusta() }
 
-    private fun estaEnListaDePermitidos(usuario: Usuario) = listaDePermitidos.contains(usuario)
-    private fun estaEnListaDeExcluidos(usuario: Usuario) = listaDeExcluidos.contains(usuario)
+    fun esMasAmistosoQue_(usuario: Usuario) = this.cantidadAmigos() > usuario.cantidadAmigos()
+
+    private fun cantidadAmigos() = this.amigos.count()
+
+
 
 }
