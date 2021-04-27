@@ -15,7 +15,7 @@ abstract class Publicacion() {
     fun recibirMeGusta(usuario: Usuario){
         //Si el usuario ya dio me gusta, tira error, sino, lo agrega.
         if (usuariosDeMeGusta.contains(usuario)){
-            throw Exception("El usuario ya ha dado like.")
+            throw Exception("El usuario ya ha dado me gusta.")
         }
         usuariosDeMeGusta.add(usuario)
     }
@@ -42,7 +42,7 @@ abstract class Publicacion() {
     fun permisoPublico(usuario: Usuario) = true
     fun permisoSoloAmigos(usuario: Usuario) = usuarioPublicacion.amigos.contains(usuario)
     fun permisoPrivadoConPermitidos(usuario: Usuario) = usuarioPublicacion.listaDePermitidos.contains(usuario)
-    fun permisoPublicoConExcluidos(usuario: Usuario) = usuarioPublicacion.listaDeExcluidos.contains(usuario)
+    fun permisoPublicoConExcluidos(usuario: Usuario) = !usuarioPublicacion.listaDeExcluidos.contains(usuario)
 
 }
 
